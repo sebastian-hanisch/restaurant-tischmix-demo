@@ -208,3 +208,9 @@ def test_kette_und_simulation_weichen_bei_umbauzeit_hoechstens_0_24_prozent_ab()
 def test_reservierung_randfall_bei_preis_vier_und_grosser_streuung():
     st = ev.reserve_studies(DATA, 0.75, 15.0)
     assert R.best_f(st, 4.0, 0.0) == 1.5 == max(s.f for s in st)
+
+
+def test_standardrestaurant_belegung():
+    """README, Zeile „Was kostet die Tischform?“: Standardrestaurant der App (Zufalls-Seed 35, 8 Läufe zu je 3000 Stunden): Tischbelegung 64 %, Gastbelegung 58 %."""
+    s = A.study(Params(), 35)
+    assert (round(100 * s.seat_occupancy), round(100 * s.guest_occupancy)) == (64, 58)

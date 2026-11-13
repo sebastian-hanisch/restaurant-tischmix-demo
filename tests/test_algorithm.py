@@ -145,3 +145,15 @@ def test_study_mittelt_ueber_laeufe_mit_verschiedenen_seeds():
     runs = [A.run_once(Params(), 5 * C.SUBSEED_STRIDE + k, 300).guests_per_hour for k in range(4)]
     assert s.guests_per_hour == pytest.approx(sum(runs) / 4) and s.runs == 4
     assert s.guests_se == pytest.approx(math.sqrt(sum((x - s.guests_per_hour) ** 2 for x in runs) / 3 / 4))
+
+
+def test_handrechnung_einzelner_zweiertisch_mit_den_zahlen_der_erklaerseite():
+    """Erklärseite „Durchgerechnet: ein einziger Zweiertisch“: 254,95 Gastminuten je Gruppe, λ = 2 / 254,95 ≈ 0,00784, a ≈ 0,229, u ≈ 0,187, 1 − u ≈ 0,813, G ≈ 0,345 Gäste je Stunde."""
+    p = Params(t2=1, t4=0, t6=0)
+    minutes = sum(pr * s * mean_dwell(s) for pr, s in zip(p.probs, C.SIZES))
+    assert round(minutes, 2) == 254.95 and round(p.rate, 5) == 0.00784
+    a = p.rate * 0.45 * 65
+    u = a / (1 + a)
+    g = 60 * p.rate * 0.45 * 2 * (1 - u)
+    assert (round(a, 3), round(u, 3), round(1 - u, 3), round(g, 3)) == (0.229, 0.187, 0.813, 0.345)
+    assert E.exact_chain({2: 1}, p.probs, p.rate).guests_per_hour == pytest.approx(g, rel=1e-9)

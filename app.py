@@ -114,6 +114,19 @@ Alle Annahmen (Gruppenverteilungen, Verweildauern, Umbauzeit, Geduld) sind Regle
 **Reservierung**, sechs **Experimente** mit vorgerechneten Messreihen und die Expander **🔧 Wie wir das erreichen – vollständiger Methodenvergleich**, **📐 Mathematische Formulierung** und **🚧 Wo die Annahmen enden**.
 """
 )
+
+# erklaerseite:einfach:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/restaurant-tischmix-erklaert.json, nicht von Hand ändern)
+with st.expander("💬 In einfachen Worten"):
+    st.markdown(
+        """
+Ein Restaurant ohne Reservierung hat Tische für zwei, vier und sechs Personen, und niemand weiß, in welcher Größe die Gruppen morgen kommen. Eine Gruppe wird an einen passenden freien Tisch gesetzt oder geht. Die Frage ist, welche Tische zu den Gruppen passen, was es kostet, wenn die Schätzung falsch war, und ob sich zwei Tische zusammenstellen lassen sollten.
+
+Die App spielt Abende durch und zeigt, wie viele Gäste das Restaurant bedient. Sie vergleicht die Tische mit einem idealen Sitzplatz-Pool ohne Tischform, rechnet zusammenstellbare Tische mit Umbauzeit, Warteschlange und Nachbarschaft im Grundriss und einen Reservierungsabend. Das Restaurant ist ausgedacht, es sind keine echten Gäste.
+
+[Ausführlich und verständlich erklärt, mit Fachteil](https://sebastianhanisch.net/restaurant-tischmix-erklaert.html)
+        """
+    )
+# erklaerseite:einfach:end
 st.caption("🔗 Die Adresszeile oben spiegelt Ihre aktuelle Konfiguration wider – einfach kopieren, um ein Szenario zu teilen.")
 
 load_permalink_settings()
@@ -316,6 +329,25 @@ Alle Zufallsfolgen kommen aus einem eigenen SplitMix64; die Live-Rechnung mittel
             st.caption("Die Einstellungen haben sich geändert: erneut „Exakt rechnen“.")
 
 with st.expander("📐 Mathematische Formulierung"):
+    # erklaerseite:lesehilfe:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/restaurant-tischmix-erklaert.json, nicht von Hand ändern)
+    st.markdown(
+        r"""
+**Lesehilfe.** Gegeben sind Tische mit $c_i$ Plätzen, Gruppen der Größe $s$ mit Anteilen $p_s$ und der mittleren Verweildauer $m_s$, die Last $\rho$ und die Umbauzeit $\delta$ einer kombinierten Gruppe. Gesucht sind die Gäste je Stunde $G$ im Gleichgewicht. Der ideale Sitzplatz-Pool vergibt Plätze ohne Tischform; die Rekursion unten gilt für ihn, nicht für feste Tische. Alles andere rechnet die Demo als Simulation oder mit einer exakten Markov-Kette für kleine Restaurants.
+
+| Symbol | Bedeutung |
+|---|---|
+| $c_i, C$ | Plätze von Tisch $i$, Plätze insgesamt |
+| $s, p_s$ | Gruppengröße (2, 3, 4 oder 6), Anteil der Gruppen dieser Größe |
+| $m_s$ | mittlere Verweildauer einer Gruppe der Größe $s$, $m_s = 45 + 10 s$ Minuten |
+| $\rho, \lambda$ | Last (angebotene Gastminuten je Platzminute), Ankunftsrate der Gruppen je Minute |
+| $\delta$ | Umbauzeit einer kombinierten Gruppe in Minuten |
+| $B_s, G$ | Sperrwahrscheinlichkeit der Größe $s$, Gäste je Stunde |
+| $q(j), a_s$ | Wahrscheinlichkeit von $j$ belegten Plätzen im Pool, angebotene Last der Größe $s$ |
+
+[Schritt für Schritt erklärt, mit Herleitung und Literatur](https://sebastianhanisch.net/restaurant-tischmix-erklaert.html#fachleute)
+        """
+    )
+    # erklaerseite:lesehilfe:end
     st.markdown(
         r"""
 **Gegeben:** Tische mit $c_i \in \{2, 4, 6\}$ Plätzen, Gruppengrößen $s \in \{2, 3, 4, 6\}$ mit Anteilen $p_s$, Last $\rho$, mittlere Verweildauer $m_s = 45 + 10 s$ Minuten, Umbauzeit $\delta$.
