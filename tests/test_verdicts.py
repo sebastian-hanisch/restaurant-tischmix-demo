@@ -60,7 +60,7 @@ def test_verdikt_mix_robuster_mix_und_schlechter_mix():
     kind, text = ev.verdict_mix(ROWS, (3, 3, 1), "none")
     assert kind == "success" and "3 × 2er, 3 × 4er, 1 × 6er" in text and "bis zu 12,5 % mehr Gäste" in text and "höchstens 12,5 % mehr" in text and "11,1 % der möglichen Gäste" in text
     kind, text = ev.verdict_mix(ROWS, (4, 4, 0), "none")
-    assert kind == "warning" and "bis zu 32,0 % mehr Gäste als der Mix 4 × 2er, 4 × 4er, 0 × 6er (bei der Verteilung „große Gruppen“; das sind 24,2 % der möglichen Gäste" in text and "höchstens 12,5 % mehr" in text
+    assert kind == "warning" and "bis zu 32,0 % mehr Gäste als der Mix 4 × 2er, 4 × 4er, 0 × 6er (bei der Verteilung „viele große Gruppen“; das sind 24,2 % der möglichen Gäste" in text and "höchstens 12,5 % mehr" in text
     kind, text = ev.verdict_mix(ROWS, (0, 0, 4), "alle10")
     assert kind == "warning" and "(6 × 2er, 3 × 4er, 0 × 6er) bedient der beste Mix höchstens 3,9 % mehr" in text
 
@@ -74,7 +74,7 @@ def test_verdikt_reservierung_innerer_bestwert_und_rand():
 
 
 def test_verdikt_form_je_preset():
-    erwartet = {"Restaurant für Paare": "warning", "Gleicher Mix, große Gruppen": "warning", "Mit Kombination": "info", "Mit Umbauzeit": "warning", "Mit Warteschlange": "info", "Robuster Mix": "warning"}
+    erwartet = {"Viele Paare, passender Mix": "warning", "Gleicher Mix, große Gruppen": "warning", "Mit Kombination": "info", "Mit Umbauzeit": "warning", "Mit Warteschlange": "info", "Robuster Mix": "warning"}
     assert set(erwartet) == set(C.PRESETS)
     for name, kind in erwartet.items():
         a = ev.analyse(ev.Settings(params=Params(**C.PRESETS[name])))

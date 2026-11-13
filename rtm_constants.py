@@ -24,8 +24,9 @@ DISTRIBUTIONS = {
     "gross": (0.15, 0.20, 0.35, 0.30),
     "gemischt": (0.30, 0.20, 0.30, 0.20),
 }
-DIST_SHORT = {"paare": "Paare", "klein": "kleine Gruppen", "gross": "große Gruppen", "gemischt": "gemischt"}
-DIST_LABELS = {"paare": "Paare (45 % Zweiergruppen)", "klein": "Kleine Gruppen (70 % Zweiergruppen)", "gross": "Große Gruppen (65 % ab vier)", "gemischt": "Gemischt"}
+DIST_SHORT = {"paare": "gemischt, viele Paare", "klein": "fast nur Paare", "gross": "viele große Gruppen", "gemischt": "gleichmäßig gemischt"}
+DIST_LABELS = {"paare": "Gemischt, viele Paare (45 % Paare, Ø 3,1 Personen)", "klein": "Fast nur Paare (70 % Paare, Ø 2,6 Personen)",
+               "gross": "Viele große Gruppen (65 % ab vier, Ø 4,1 Personen)", "gemischt": "Gleichmäßig gemischt (Ø 3,6 Personen)"}
 COMBINE_MODES = ("aus", "nur 2er", "beliebig", "Nachbarn")
 RULES = ("best", "worst")
 RULE_LABELS = {"best": "Best-Fit (kleinster passender Tisch)", "worst": "Worst-Fit (größter freier Tisch)"}
@@ -43,7 +44,7 @@ COLOR_TABLE = {2: "#8fb8b3", 4: "#4c9a91", 6: "#2F6B65"}
 
 # Presets: jeder Eintrag nennt nur, was vom Standard (Params()) abweicht; der Rest bleibt Standard.
 PRESETS = {
-    "Restaurant für Paare": {},
+    "Viele Paare, passender Mix": {},
     "Gleicher Mix, große Gruppen": {"t2": 4, "t4": 4, "dist": "gross"},
     "Mit Kombination": {"dist": "gross", "combine": "beliebig"},
     "Mit Umbauzeit": {"dist": "gross", "combine": "beliebig", "extra": 20.0},
@@ -51,8 +52,8 @@ PRESETS = {
     "Robuster Mix": {"t2": 6, "t4": 3, "t6": 0, "dist": "gross", "combine": "beliebig"},
 }
 PRESET_HELP = {
-    "Restaurant für Paare": "Vier Zweier- und vier Viertische, 24 Plätze, überwiegend Paare und kleine Gruppen: der Mix passt zur Nachfrage.",
-    "Gleicher Mix, große Gruppen": "Derselbe Tischmix, aber die Gäste kommen überwiegend in Gruppen ab vier: die Annahme über die Gruppen war falsch, die Tische passen nicht mehr.",
+    "Viele Paare, passender Mix": "Vier Zweier- und vier Viertische, 24 Plätze, Gruppen im Mittel 3,1 Personen (45 % Paare): ohne Kombination ist das der beste Mix für diese Gäste.",
+    "Gleicher Mix, große Gruppen": "Derselbe Tischmix, aber 65 % der Gruppen haben vier oder mehr Personen: die Annahme über die Gruppen war falsch, die Tische passen nicht mehr.",
     "Mit Kombination": "Wie zuvor, aber zwei freie Tische dürfen für eine Gruppe zusammengestellt werden (Standard-Umbauzeit 10 Minuten je kombinierter Gruppe).",
     "Mit Umbauzeit": "Kombination mit 20 Minuten Umbau je kombinierter Gruppe: der Zuwachs schrumpft, ein Teil bleibt.",
     "Mit Warteschlange": "Gäste warten bis zu 15 Minuten auf einen Tisch: mehr Gäste werden bedient, der Mix zählt weiter.",

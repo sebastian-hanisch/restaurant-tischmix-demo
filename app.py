@@ -214,7 +214,7 @@ _show(verdict_combine(a))
 # ---------------------------------------------------------------------------------------------- Reservierung
 st.markdown("## Reservierung: Wie lang soll ein Tisch eingeplant werden?")
 st.markdown(
-    "Sieben Tische (3 × 2er, 3 × 4er, 1 × 6er), 22 Reservierungsanfragen je Abend zu Startzeiten im 30-Minuten-Raster. Eine Anfrage wird angenommen, wenn ein Tisch in der **geplanten** Dauer "
+    "Sieben Tische (3 × 2er, 3 × 4er, 1 × 6er), 22 Reservierungsanfragen je Abend (Gruppen wie „gemischt, viele Paare“) zu Startzeiten im 30-Minuten-Raster. Eine Anfrage wird angenommen, wenn ein Tisch in der **geplanten** Dauer "
     "(Planungsfaktor × Mittel) frei ist; die **wirkliche** Dauer streut. Überzieht ein Gast, wartet die Folgegruppe, und nach der Wartegrenze geht sie."
 )
 r1, r2, r3, r4 = st.columns(4)
@@ -242,7 +242,7 @@ st.subheader("🔬 1 · Der Tischmix ist eine Wette auf die Gruppenverteilung")
 pool_rows = pool_gap_table(DATA)
 st.dataframe([{"Verteilung": C.DIST_LABELS[r["dist"]], "bester Mix ohne Kombination": _mix_name(r["dedicated"]), "Gäste je Stunde": _num(r["dedicated_gph"], 3),
                "bester Mix mit Kombination (10 min)": _mix_name(r["combinable"]), "Gäste je Stunde (komb.)": _num(r["combinable_gph"], 3)} for r in pool_rows], hide_index=True, width="stretch")
-st.caption("Ohne Kombination hat jede Verteilung einen anderen besten Mix (mit Kombination teilen sich „große Gruppen“ und „gemischt“ denselben); deshalb ist die Wahl ohne Kenntnis der künftigen Gruppen eine Wette (Kernfrage 2).")
+st.caption("Ohne Kombination hat jede Verteilung einen anderen besten Mix (mit Kombination teilen sich „viele große Gruppen“ und „gleichmäßig gemischt“ denselben); deshalb ist die Wahl ohne Kenntnis der künftigen Gruppen eine Wette (Kernfrage 2).")
 
 st.subheader("🔬 2 · Umbauzeit: der Zuwachs schrumpft, die Versicherung bleibt")
 halte = halte_table(ROWS)
@@ -258,7 +258,7 @@ with gcols[0]:
 with gcols[1]:
     st.dataframe([{"Geduld": f"{p:.0f} min", "größtes Bedauern falsche Annahme, ohne Kombination": _num(geduld_regret(DATA["geduld"], p, "aus"), 1) + " %",
                    "mit Kombination (10 min Umbau)": _num(geduld_regret(DATA["geduld"], p, "beliebig"), 1) + " %"} for p in (0.0, 15.0, 30.0)], hide_index=True, width="stretch")
-    st.caption("Drei Bestmixe (je einer für Paare, kleine und große Gruppen) gegeneinander; Simulation, 12 Zufalls-Seeds, 3000 Stunden je Zelle.")
+    st.caption("Drei Bestmixe (je einer für „gemischt, viele Paare“, „fast nur Paare“ und „viele große Gruppen“) gegeneinander; Simulation, 12 Zufalls-Seeds, 3000 Stunden je Zelle.")
 
 st.subheader("🔬 4 · Nachbarschaft kostet wenig")
 st.dataframe([{"Verteilung": C.DIST_SHORT[r["dist"]], "Anordnung": r["arrangement"], "ohne Kombination": _num(r["aus"], 3), "beliebige Paare, 0 min": _num(r["beliebig0"], 3),
@@ -268,7 +268,7 @@ st.caption("Acht Zweier- und zwei Viertische im Raster mit fünf Spalten; Gäste
 
 st.subheader("🔬 5 · Tischwahl und Restaurantgröße")
 ann = DATA["annahme"]
-st.dataframe([{"Fall": "kleines Restaurant (2 × 2er, 2 × 4er, 1 × 6er), Paare, Best-Fit", "Gäste je Stunde": _num(ann["S_best"]["gph"], 3), "Gastbelegung": _num(100 * ann["S_best"]["guest_occ"], 1) + " %", "Tischbelegung": _num(100 * ann["S_best"]["seat_occ"], 1) + " %"},
+st.dataframe([{"Fall": "kleines Restaurant (2 × 2er, 2 × 4er, 1 × 6er), „gemischt, viele Paare“, Best-Fit", "Gäste je Stunde": _num(ann["S_best"]["gph"], 3), "Gastbelegung": _num(100 * ann["S_best"]["guest_occ"], 1) + " %", "Tischbelegung": _num(100 * ann["S_best"]["seat_occ"], 1) + " %"},
               {"Fall": "dasselbe, Worst-Fit", "Gäste je Stunde": _num(ann["S_worst"]["gph"], 3), "Gastbelegung": _num(100 * ann["S_worst"]["guest_occ"], 1) + " %", "Tischbelegung": _num(100 * ann["S_worst"]["seat_occ"], 1) + " %"}],
              hide_index=True, width="stretch")
 if ann["L_alle"]["gph"]:
