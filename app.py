@@ -259,17 +259,17 @@ st.caption("Ohne Kombination hat jede Verteilung einen anderen besten Mix (mit K
 
 st.subheader("🔬 2 · Umbauzeit: der Zuwachs schrumpft, die Versicherung bleibt")
 halte = halte_table(ROWS)
-st.dataframe([{"Umbauzeit (min)": f"{h['extra']:.0f}", **{f"Zuwachs {C.DIST_SHORT[d]}": _num(h["gain"][d], 1) + " %" for d in C.DISTRIBUTIONS}, "größtes Bedauern bei falscher Annahme": _num(h["worst"], 1) + " %",
-               "robuster Mix": _mix_name(h["robust"]), "dessen größtes Bedauern": _num(h["robust_loss"], 1) + " %", "Fälle, in denen Kombination schadet": f"{h['harm']} von {h['cells']}"} for h in halte],
+st.dataframe([{"Umbauzeit (min)": f"{h['extra']:.0f}", **{f"Zuwachs {C.DIST_SHORT[d]}": _num(h["gain"][d], 1) + " %" for d in C.DISTRIBUTIONS}, "größter Regret bei falscher Annahme": _num(h["worst"], 1) + " %",
+               "robuster Mix": _mix_name(h["robust"]), "dessen größter Regret": _num(h["robust_loss"], 1) + " %", "Fälle, in denen Kombination schadet": f"{h['harm']} von {h['cells']}"} for h in halte],
              hide_index=True, width="stretch")
-st.caption("Zuwachs = bester kombinierbarer Mix gegen besten Mix ohne Kombination, je Verteilung. Bedauern = so viel mehr Gäste bedient der beste Mix für die eingetretene Verteilung; es gilt für den Mix, der für die jeweilige andere Verteilung am besten ist.")
+st.caption("Zuwachs = bester kombinierbarer Mix gegen besten Mix ohne Kombination, je Verteilung. Regret = so viel mehr Gäste bedient der beste Mix für die eingetretene Verteilung (in Prozent der Gäste des gewählten Mixes); er gilt für den Mix, der für die jeweilige andere Verteilung am besten ist.")
 
 st.subheader("🔬 3 · Warteschlange: mehr Gäste, gleiche Rangfolge")
 gcols = st.columns(2)
 with gcols[0]:
     st.plotly_chart(build_geduld(DATA["geduld"]), width="stretch", config={"displayModeBar": False})
 with gcols[1]:
-    st.dataframe([{"Geduld": f"{p:.0f} min", "größtes Bedauern falsche Annahme, ohne Kombination": _num(geduld_regret(DATA["geduld"], p, "aus"), 1) + " %",
+    st.dataframe([{"Geduld": f"{p:.0f} min", "größter Regret falsche Annahme, ohne Kombination": _num(geduld_regret(DATA["geduld"], p, "aus"), 1) + " %",
                    "mit Kombination (10 min Umbau)": _num(geduld_regret(DATA["geduld"], p, "beliebig"), 1) + " %"} for p in (0.0, 15.0, 30.0)], hide_index=True, width="stretch")
     st.caption("Drei Bestmixe (je einer für „gemischt, viele Paare“, „fast nur Paare“ und „viele große Gruppen“) gegeneinander; Simulation, 12 Zufalls-Seeds, 3000 Stunden je Zelle.")
 
@@ -374,8 +374,8 @@ $$j \, q(j) = \sum_s a_s \, s \, q(j - s).$$
 | $B_s, G$ | Sperrwahrscheinlichkeit der Größe $s$, Gäste je Stunde |
 | $q(j), a_s$ | Wahrscheinlichkeit von $j$ belegten Plätzen im Pool, angebotene Last der Größe $s$ |
 
-**Bedauern:** Wird der Mix für die Verteilung $d$ gewählt und tritt $d'$ ein, ist das Bedauern in Prozent
-$100 \, (G^{*}_{d'} / G_{d'}(\text{Mix}) - 1)$ mit $G^{*}_{d'}$ als Gästen je Stunde des besten Mixes für $d'$ (so viel mehr Gäste bedient der beste Mix); der Anteil der möglichen Gäste, den der gewählte Mix verliert, ist $100 \, r / (100 + r)$ für das Bedauern $r$.
+**Regret:** Wird der Mix für die Verteilung $d$ gewählt und tritt $d'$ ein, ist der Regret in Prozent
+$100 \, (G^{*}_{d'} / G_{d'}(\text{Mix}) - 1)$ mit $G^{*}_{d'}$ als Gästen je Stunde des besten Mixes für $d'$ (so viel mehr Gäste bedient der beste Mix); der Anteil der möglichen Gäste, den der gewählte Mix verliert, ist $100 \, r / (100 + r)$ für den Regret $r$.
 **Reservierung:** Nettowert je Abend = bediente Gäste $- w \cdot$ abgewiesene Zusagen $- c \cdot$ Gästestunden Wartezeit.
 """
     )
